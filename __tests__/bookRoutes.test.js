@@ -141,6 +141,21 @@ describe("Book routes tests", function() {
 			expect(response.statusCode).toEqual(404);
 		});
 	});
+
+	describe("DELETE /books/:isbn", function() {
+		test("response will include a message indicating book was deleted", async function() {
+			let response = await request(app).delete("/books/0691161518");
+
+			expect(response.body.message).toEqual("Book deleted");
+			expect(response.statusCode).toEqual(200);
+		});
+
+		test("response will be an error if an ISBN that doesn't exist is requested", async function() {
+			let response = await request(app).delete("/books/1111111111");
+
+			expect(response.statusCode).toEqual(404);
+		});
+	});
 });
 
 afterAll(async function() {
